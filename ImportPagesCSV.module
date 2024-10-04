@@ -109,7 +109,7 @@ class ImportPagesCSV extends Process implements Module {
 	 */
 	public function init() {
 		parent::init();
-		ini_set('auto_detect_line_endings', true);
+		// ini_set('auto_detect_line_endings', true); // depreciated php 8
 	}
 
 	/**
@@ -225,7 +225,7 @@ class ImportPagesCSV extends Process implements Module {
 		$f->label = 'Fields delimited by';
 		$f->addOption(1, 'Commas');
 		$f->addOption(2, 'Tabs');
-		$value = $this->sessionGet('csvDelimeter');
+		$value = (string) $this->sessionGet('csvDelimeter');
 		if(strlen($value)) {
 			$f->attr('value', $value === "\t" ? 2 : 1);
 		} else {
@@ -386,7 +386,6 @@ class ImportPagesCSV extends Process implements Module {
 				if(!$this->isAllowedField($field)) continue;
 				$label = "$field->name – $field->label (" . $field->type->shortName . ")"; 
 				$f->addOption($field->name, $label); 
-				$f->addOption('name');
 				if($field->name == $value) $f->attr('value', $field->name); 
 			}
 
@@ -513,7 +512,7 @@ class ImportPagesCSV extends Process implements Module {
 		}
 
 		// import post-save data, like files
-		if($page->id && count($page->get('ImportPagesCSVData'))) {
+		if($page->id && $page->if('ImportPagesCSVData')) {
 			foreach($page->get('ImportPagesCSVData') as $name => $value) {
 				$page->set($name, $value);
 			}
