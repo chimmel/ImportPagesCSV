@@ -41,7 +41,7 @@ class ImportPagesCSV extends Process implements Module {
 		return array(
 			'title' => 'Import Pages from CSV', 
 			'version' => 108, 
-			'summary' => 'Import CSV files to create ProcessWire pages.',
+			'summary' => 'Import CSV files to create ProcessWire pages. (moddirfork)',
 			'author' => 'Ryan Cramer',
 			'icon' => 'table',
 			'page' => array(
